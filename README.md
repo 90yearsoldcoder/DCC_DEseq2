@@ -15,12 +15,12 @@ Following the pipeline: ```https://github.com/90yearsoldcoder/DCC_protocol.git``
 
 ## Step 2 Prepare DCC result data
 * Script: ```Script/concatenate.py```
-* Manually reset the input parameter in the python file
-* inputdata: DCCresult/CircRNACount
-* outputdata: <group_name>_counts.tsv
+* setting: Manually reset the input parameter in the python file. if you are not working on BU HPC, please reset the reference path in ```Script/anotate.sh```
+* inputdata: ```DCCresult/CircRNACount```
+* outputdata: ```../Processing/CircRNACount_prepared.tsv```
 
 ## Step 3 Prepare the group information
-* Example group information: ```Processing/group_info.tsv```
+* Example group information: ```Processing/group_info.csv```
  
 | sampleID                   | group    |
 |----------------------------|----------|
@@ -38,7 +38,14 @@ Following the pipeline: ```https://github.com/90yearsoldcoder/DCC_protocol.git``
 | WB_LJ_PS_EX4_94_S94_L001  | otao2    |
 
 
-## Step 4 DEseq2
+## Step 4 DE
+* Script: ```Script/DE.r```
+* setting: Manually reset the ``design`` (or said covariance)
+
+## Step 5 PCA
+* Script: ```Script/PCA.r```
+* Setting: if needed, set the group information
+
 
 ....
 
@@ -46,3 +53,5 @@ Following the pipeline: ```https://github.com/90yearsoldcoder/DCC_protocol.git``
 ## Expected Result
 
 ## Plot
+1. volcano plot
+2. PCA, PC1 vs PC2
