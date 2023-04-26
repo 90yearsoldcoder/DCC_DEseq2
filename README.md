@@ -1,5 +1,5 @@
 # Analysis Plan
-This repo is a templete for DCC Differential analysis(DEseq2).
+This repo is a templete for DCC circular RNA Differential analysis(DEseq2).
 
 
 ## Target
