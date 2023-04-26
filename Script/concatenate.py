@@ -42,7 +42,7 @@ def extract_last_column(input_file):
         for row in reader:
             
             # Extract the last column and add it to the list
-            reference[f"{row[0]}:{row[1]}-{row[2]}"] = row[-1]
+            reference[f"{row[0]}:{row[1]}-{row[2]}"] = "circ" + row[-1]
             
     # Return the list of last column values
     return reference
@@ -62,7 +62,7 @@ def concatenate_columns(input_file, output_file,reference):
         for row in reader:
             if len(row) >= 3:
                 # Concatenate first three columns with : and -
-                chr_start_end = f"{row[0]}:{row[1]}-{row[2]}(circ_" + reference.get(f"{row[0]}:{row[1]}-{row[2]}", "Not Anot") + ")"
+                chr_start_end = f"{row[0]}:{row[1]}-{row[2]}(" + reference.get(f"{row[0]}:{row[1]}-{row[2]}", "Not Anot") + ")"
                 # Replace the first three columns with the concatenated value
                 row[:3] = [chr_start_end]
             writer.writerow(row)
