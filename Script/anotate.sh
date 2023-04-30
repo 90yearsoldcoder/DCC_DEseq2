@@ -6,5 +6,5 @@ perl -p -i -e 's/ /\t/g' ../Processing/CircRNA.bed
 
 module load bedtools
 
-bedtools intersect -a ../Processing/CircRNA.bed  -b /restricted/projectnb/casa/mtLin/RBP_SNP/768/protein_coding.hg37.position  -wa -wb > ../Processing/CircRNA_anotated.bed
+bedtools intersect -a ../Processing/CircRNA.bed  -b /restricted/projectnb/casa/mtLin/reference/hg38.ENST.pos  -wa -wb > ../Processing/CircRNA_anotated.bed
 

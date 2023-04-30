@@ -42,7 +42,7 @@ def extract_last_column(input_file):
         for row in reader:
             
             # Extract the last column and add it to the list
-            reference[f"{row[0]}:{row[1]}-{row[2]}"] = "circ" + row[-1]
+            reference[f"{row[0]}:{row[1]}-{row[2]}"] = (row[-2], "circ" + row[-1])
             
     # Return the list of last column values
     return reference
@@ -62,14 +62,15 @@ def concatenate_columns(input_file, output_file,reference):
         for row in reader:
             if len(row) >= 3:
                 # Concatenate first three columns with : and -
-                chr_start_end = f"{row[0]}:{row[1]}-{row[2]}(" + reference.get(f"{row[0]}:{row[1]}-{row[2]}", "Not Anot") + ")"
+                ref = reference.get(f"{row[0]}:{row[1]}-{row[2]}", ("Not Anot", "NoSymbol"))
+                chr_start_end = f"{row[0]}:{row[1]}-{row[2]}" + ":" +ref[0] + "(" + ref[1] + ")"
                 # Replace the first three columns with the concatenated value
                 row[:3] = [chr_start_end]
             writer.writerow(row)
 
 
 #generate the bed file for further annotation
-gene_bed_file("/restricted/projectnb/ncrna/minty/samb_data4/Run/DCC/SP_E4_2_2_ver2/CircRNACount","../Processing/CircRNA.bed")
+gene_bed_file("/restricted/projectnb/ncrna/minty/samb_data4_removeOL/Run/DCC/EP4_rmOL_1_1_ver2/CircRNACount","../Processing/CircRNA.bed")
 
 # Run the bedtool intersect script
 subprocess.call(['bash', 'anotate.sh'])
@@ -78,4 +79,4 @@ reference = extract_last_column("../Processing/CircRNA_anotated.bed")
 
 #print(reference)
 
-concatenate_columns("/restricted/projectnb/ncrna/minty/samb_data4/Run/DCC/SP_E4_2_2_ver2/CircRNACount","../Processing/CircRNACount_prepared.tsv", reference)
+concatenate_columns("/restricted/projectnb/ncrna/minty/samb_data4_removeOL/Run/DCC/EP4_rmOL_1_1_ver2/CircRNACount","../Processing/CircRNACount_prepared.tsv", reference)

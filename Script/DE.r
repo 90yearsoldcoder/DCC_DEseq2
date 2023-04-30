@@ -4,11 +4,13 @@ library(dplyr)
 
 
 # Read in count data
-countData <- read.delim("/restricted/projectnb/ncrna/minty/samb_data4/DCC_DEseq2/Processing/CircRNACount_prepared.tsv", header = TRUE, row.names = 1)
-
+countData <- read.delim("/restricted/projectnb/ncrna/minty/samb_data4_removeOL/DCC_DEseq2/Processing/CircRNACount_prepared.tsv", header = TRUE)
+countData <- countData[!duplicated(countData$gene), ]
+row.names(countData) <- countData$gene
+countData$gene <- NULL
 
 # Read the colData from a TSV file
-colData <- read.delim("/restricted/projectnb/ncrna/minty/samb_data4/DCC_DEseq2/Processing/group_info.csv", stringsAsFactors = FALSE,sep=",")  # adjust file name and options as needed
+colData <- read.delim("/restricted/projectnb/ncrna/minty/samb_data4_removeOL/DCC_DEseq2/Processing/group_info.csv", stringsAsFactors = FALSE,sep=",")  # adjust file name and options as needed
 
 # Set the row names of colData to match the sample names
 rownames(colData) <- colData$sampleID
@@ -77,32 +79,32 @@ plot_volcano_pvalue <- function(res_table, title, fig_path){
 
 
 # control1 vs otao1
-table <- generate_DEG_table(dds, contrast =  c("group", "Control1", "otao1"), p_value_flag = TRUE, 
-                   res_path = "/restricted/projectnb/ncrna/minty/samb_data4/DCC_DEseq2/Result/control1_vs_otao1.csv", 
-                  sig_path = "/restricted/projectnb/ncrna/minty/samb_data4/DCC_DEseq2/Result/control1_vs_otao1_sig.csv"            
+table <- generate_DEG_table(dds, contrast =  c("group", "Control1", "oTau1"), p_value_flag = TRUE, 
+                   res_path = "/restricted/projectnb/ncrna/minty/samb_data4_removeOL/DCC_DEseq2/Result/control1_vs_oTau1.csv", 
+                  sig_path = "/restricted/projectnb/ncrna/minty/samb_data4_removeOL/DCC_DEseq2/Result/control1_vs_oTau1_sig.csv"            
                                       )
-plot_volcano_pvalue(table, "control1_vs_otao1", "/restricted/projectnb/ncrna/minty/samb_data4/DCC_DEseq2/Result")
+plot_volcano_pvalue(table, "control1_vs_oTau1", "/restricted/projectnb/ncrna/minty/samb_data4_removeOL/DCC_DEseq2/Result")
 
 # control2 vs otao2
-table <- generate_DEG_table(dds, contrast =  c("group", "Control2", "otao2"), p_value_flag = TRUE, 
-                   res_path = "/restricted/projectnb/ncrna/minty/samb_data4/DCC_DEseq2/Result/control2_vs_otao2.csv", 
-                   sig_path = "/restricted/projectnb/ncrna/minty/samb_data4/DCC_DEseq2/Result/control2_vs_otao2_sig.csv"            
+table <- generate_DEG_table(dds, contrast =  c("group", "Control2", "oTau2"), p_value_flag = TRUE, 
+                   res_path = "/restricted/projectnb/ncrna/minty/samb_data4_removeOL/DCC_DEseq2/Result/control2_vs_oTau2.csv", 
+                   sig_path = "/restricted/projectnb/ncrna/minty/samb_data4_removeOL/DCC_DEseq2/Result/control2_vs_oTau2_sig.csv"            
 )
-plot_volcano_pvalue(table, "control2_vs_otao2", "/restricted/projectnb/ncrna/minty/samb_data4/DCC_DEseq2/Result")
+plot_volcano_pvalue(table, "control2_vs_oTau2", "/restricted/projectnb/ncrna/minty/samb_data4_removeOL/DCC_DEseq2/Result")
 
 # control1 vs control2
 table <- generate_DEG_table(dds, contrast =  c("group", "Control1", "Control2"), p_value_flag = TRUE, 
-                   res_path = "/restricted/projectnb/ncrna/minty/samb_data4/DCC_DEseq2/Result/control1_vs_control2.csv", 
-                   sig_path = "/restricted/projectnb/ncrna/minty/samb_data4/DCC_DEseq2/Result/control1_vs_control2_sig.csv"            
+                   res_path = "/restricted/projectnb/ncrna/minty/samb_data4_removeOL/DCC_DEseq2/Result/control1_vs_control2.csv", 
+                   sig_path = "/restricted/projectnb/ncrna/minty/samb_data4_removeOL/DCC_DEseq2/Result/control1_vs_control2_sig.csv"            
 )
-plot_volcano_pvalue(table, "control1_vs_control2", "/restricted/projectnb/ncrna/minty/samb_data4/DCC_DEseq2/Result")
+plot_volcano_pvalue(table, "control1_vs_control2", "/restricted/projectnb/ncrna/minty/samb_data4_removeOL/DCC_DEseq2/Result")
 
 # otao1 vs otao2
-table <- generate_DEG_table(dds, contrast =  c("group", "otao1", "otao2"), p_value_flag = TRUE, 
-                   res_path = "/restricted/projectnb/ncrna/minty/samb_data4/DCC_DEseq2/Result/otao1_vs_otao2.csv", 
-                   sig_path = "/restricted/projectnb/ncrna/minty/samb_data4/DCC_DEseq2/Result/otao1_vs_otao2_sig.csv"            
+table <- generate_DEG_table(dds, contrast =  c("group", "oTau1", "oTau2"), p_value_flag = TRUE, 
+                   res_path = "/restricted/projectnb/ncrna/minty/samb_data4_removeOL/DCC_DEseq2/Result/oTau1_vs_oTau2.csv", 
+                   sig_path = "/restricted/projectnb/ncrna/minty/samb_data4_removeOL/DCC_DEseq2/Result/oTau1_vs_oTau2_sig.csv"            
 )
-plot_volcano_pvalue(table, "otao1_vs_otao2", "/restricted/projectnb/ncrna/minty/samb_data4/DCC_DEseq2/Result")
+plot_volcano_pvalue(table, "oTau1_vs_oTau2", "/restricted/projectnb/ncrna/minty/samb_data4_removeOL/DCC_DEseq2/Result")
 
 
 

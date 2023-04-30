@@ -1,5 +1,8 @@
 # Load the data into a data frame
-gene_expression <- read.delim("/restricted/projectnb/ncrna/minty/samb_data4/DCC_DEseq2/Processing/CircRNACount_prepared.tsv", header = TRUE, row.names = 1)
+gene_expression <- read.delim("/restricted/projectnb/ncrna/minty/samb_data4_removeOL/DCC_DEseq2/Processing/CircRNACount_prepared.tsv", header = TRUE)
+gene_expression <- gene_expression[!duplicated(gene_expression$gene), ]
+row.names(gene_expression) <- gene_expression$gene
+gene_expression$gene <- NULL
 
 # Transpose the data so that each row corresponds to a sample and each column corresponds to a gene
 gene_expression_transposed <- t(gene_expression)
@@ -11,7 +14,7 @@ head(gene_expression_transposed)
 gene_expression_transposed_norm <- scale(gene_expression_transposed)
 
 # Read the colData from a TSV file
-colData <- read.delim("/restricted/projectnb/ncrna/minty/samb_data4/DCC_DEseq2/Processing/group_info.csv", stringsAsFactors = FALSE,sep=",")
+colData <- read.delim("/restricted/projectnb/ncrna/minty/samb_data4_removeOL/DCC_DEseq2/Processing/group_info.csv", stringsAsFactors = FALSE,sep=",")
 
 # Set the row names of colData to match the sample names
 rownames(colData) <- colData$sampleID
@@ -40,7 +43,7 @@ if (length(unique(groups)) > 1) {
   for (i in 1:length(unique(groups))) {
     points(pca_result$x[groups == unique(groups)[i],1], pca_result$x[groups == unique(groups)[i],2], col = colors[i], pch = 20)
   }
-  legend("topright", legend = legend_labels, fill = colors)
+  legend("bottomright", legend = legend_labels, fill = colors)
 }
 
 # Save the plot
@@ -50,6 +53,6 @@ if (length(unique(groups)) > 1) {
   for (i in 1:length(unique(groups))) {
     points(pca_result$x[groups == unique(groups)[i],1], pca_result$x[groups == unique(groups)[i],2], col = colors[i], pch = 20)
   }
-  legend("topright", legend = legend_labels, fill = colors)
+  legend("bottomright", legend = legend_labels, fill = colors)
 }
 dev.off()
